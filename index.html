@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d10">
+  <meta name="description" content="LEVEL UP — personal offline habit and XP tracker">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./css/style.css">
+  <title>LEVEL UP</title>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">PERSONAL SYSTEM</p>
+        <h1>LEVEL UP</h1>
+      </div>
+      <div class="rank-badge" id="rankBadge">KICKOFF</div>
+    </header>
+
+    <section class="hero card">
+      <div class="hero-row">
+        <div>
+          <p class="muted">CURRENT RANK</p>
+          <h2 id="rankName">Kickoff</h2>
+        </div>
+        <div class="xp-total"><strong id="totalXP">0</strong><span>XP</span></div>
+      </div>
+      <div class="progress-track"><div id="xpBar" class="progress-fill"></div></div>
+      <div class="progress-meta">
+        <span id="xpProgressText">0 / 150 XP</span>
+        <span id="nextRankText">Bronze</span>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="stat card"><span>🔥 STREAK</span><strong id="currentStreak">0</strong><small>days</small></div>
+      <div class="stat card"><span>⚡ TODAY</span><strong id="todayXP">0</strong><small>XP</small></div>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <div><p class="eyebrow">TODAY</p><h2>Habits</h2></div>
+        <button id="addHabitBtn" class="small-btn">+ Habit</button>
+      </div>
+      <div id="habitList" class="list"></div>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <div><p class="eyebrow">TODAY</p><h2>Tasks</h2></div>
+        <button id="addTaskBtn" class="small-btn">+ Task</button>
+      </div>
+      <div id="taskList" class="list"></div>
+    </section>
+
+    <section id="message" class="message" aria-live="polite"></section>
+  </main>
+
+  <dialog id="habitDialog">
+    <form method="dialog" id="habitForm">
+      <h2>New Habit</h2>
+      <label>Name<input id="habitName" required maxlength="80" placeholder="Study"></label>
+      <label>XP<input id="habitXP" type="number" min="1" max="10000" value="50" required></label>
+      <label>Schedule
+        <select id="habitSchedule">
+          <option value="daily">Every day</option>
+          <option value="weekdays">Selected weekdays</option>
+        </select>
+      </label>
+      <div id="weekdayPicker" class="weekday-picker" hidden>
+        <label><input type="checkbox" value="1"> Mon</label>
+        <label><input type="checkbox" value="2"> Tue</label>
+        <label><input type="checkbox" value="3"> Wed</label>
+        <label><input type="checkbox" value="4"> Thu</label>
+        <label><input type="checkbox" value="5"> Fri</label>
+        <label><input type="checkbox" value="6"> Sat</label>
+        <label><input type="checkbox" value="0"> Sun</label>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="ghost" data-close="habitDialog">Cancel</button>
+        <button class="primary">Create</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="taskDialog">
+    <form method="dialog" id="taskForm">
+      <h2>New Task</h2>
+      <label>Name<input id="taskName" required maxlength="100" placeholder="Finish Physics DPP"></label>
+      <label>XP<input id="taskXP" type="number" min="1" max="10000" value="100" required></label>
+      <label>Date<input id="taskDate" type="date" required></label>
+      <label>Time <span class="muted">(optional)</span><input id="taskTime" type="time"></label>
+      <div class="dialog-actions">
+        <button type="button" class="ghost" data-close="taskDialog">Cancel</button>
+        <button class="primary">Create</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
