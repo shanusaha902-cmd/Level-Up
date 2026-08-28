@@ -1,104 +1,70 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#0b0d10">
-  <meta name="description" content="LEVEL UP — personal offline habit and XP tracker">
-  <link rel="manifest" href="./manifest.json">
-  <link rel="stylesheet" href="./css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>LEVEL UP</title>
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <main class="app">
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">PERSONAL SYSTEM</p>
-        <h1>LEVEL UP</h1>
-      </div>
-      <div class="rank-badge" id="rankBadge">KICKOFF</div>
-    </header>
+  <div id="app-error" hidden class="app-error"></div>
 
-    <section class="hero card">
-      <div class="hero-row">
-        <div>
-          <p class="muted">CURRENT RANK</p>
-          <h2 id="rankName">Kickoff</h2>
+  <header class="app-header">
+    <h1 class="app-title">LEVEL <span class="accent">UP</span></h1>
+    <div class="today-badge">
+      <span id="today-date">--</span>
+    </div>
+  </header>
+
+  <main class="dashboard">
+
+    <section class="card stats-card">
+      <div class="stat-row">
+        <div class="stat-block">
+          <span class="stat-label">Rank</span>
+          <span id="current-rank" class="stat-value">--</span>
         </div>
-        <div class="xp-total"><strong id="totalXP">0</strong><span>XP</span></div>
+        <div class="stat-block">
+          <span class="stat-label">Total XP</span>
+          <span id="total-xp" class="stat-value">0</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-label">Today's XP</span>
+          <span id="today-xp" class="stat-value">0</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-label">Streak</span>
+          <span id="current-streak" class="stat-value">0</span>
+        </div>
       </div>
-      <div class="progress-track"><div id="xpBar" class="progress-fill"></div></div>
-      <div class="progress-meta">
-        <span id="xpProgressText">0 / 150 XP</span>
-        <span id="nextRankText">Bronze</span>
-      </div>
-    </section>
 
-    <section class="stats">
-      <div class="stat card"><span>🔥 STREAK</span><strong id="currentStreak">0</strong><small>days</small></div>
-      <div class="stat card"><span>⚡ TODAY</span><strong id="todayXP">0</strong><small>XP</small></div>
+      <div class="progress-track">
+        <div id="rank-progress-bar" class="progress-fill"></div>
+      </div>
+      <div id="rank-progress-label" class="progress-label">--</div>
     </section>
 
     <section class="card">
-      <div class="section-head">
-        <div><p class="eyebrow">TODAY</p><h2>Habits</h2></div>
-        <button id="addHabitBtn" class="small-btn">+ Habit</button>
+      <div class="section-header">
+        <h2 class="section-title">Today's Habits</h2>
+        <button type="button" id="add-habit-btn" class="btn btn-add">+ Habit</button>
       </div>
-      <div id="habitList" class="list"></div>
+      <div id="habit-list" class="item-list"></div>
     </section>
 
     <section class="card">
-      <div class="section-head">
-        <div><p class="eyebrow">TODAY</p><h2>Tasks</h2></div>
-        <button id="addTaskBtn" class="small-btn">+ Task</button>
-      </div>
-      <div id="taskList" class="list"></div>
+      <h2 class="section-title">Today's Tasks</h2>
+      <div id="task-list" class="item-list"></div>
     </section>
 
-    <section id="message" class="message" aria-live="polite"></section>
   </main>
 
-  <dialog id="habitDialog">
-    <form method="dialog" id="habitForm">
-      <h2>New Habit</h2>
-      <label>Name<input id="habitName" required maxlength="80" placeholder="Study"></label>
-      <label>XP<input id="habitXP" type="number" min="1" max="10000" value="50" required></label>
-      <label>Schedule
-        <select id="habitSchedule">
-          <option value="daily">Every day</option>
-          <option value="weekdays">Selected weekdays</option>
-        </select>
-      </label>
-      <div id="weekdayPicker" class="weekday-picker" hidden>
-        <label><input type="checkbox" value="1"> Mon</label>
-        <label><input type="checkbox" value="2"> Tue</label>
-        <label><input type="checkbox" value="3"> Wed</label>
-        <label><input type="checkbox" value="4"> Thu</label>
-        <label><input type="checkbox" value="5"> Fri</label>
-        <label><input type="checkbox" value="6"> Sat</label>
-        <label><input type="checkbox" value="0"> Sun</label>
-      </div>
-      <div class="dialog-actions">
-        <button type="button" class="ghost" data-close="habitDialog">Cancel</button>
-        <button class="primary">Create</button>
-      </div>
-    </form>
-  </dialog>
+  <div id="modal-root"></div>
 
-  <dialog id="taskDialog">
-    <form method="dialog" id="taskForm">
-      <h2>New Task</h2>
-      <label>Name<input id="taskName" required maxlength="100" placeholder="Finish Physics DPP"></label>
-      <label>XP<input id="taskXP" type="number" min="1" max="10000" value="100" required></label>
-      <label>Date<input id="taskDate" type="date" required></label>
-      <label>Time <span class="muted">(optional)</span><input id="taskTime" type="time"></label>
-      <div class="dialog-actions">
-        <button type="button" class="ghost" data-close="taskDialog">Cancel</button>
-        <button class="primary">Create</button>
-      </div>
-    </form>
-  </dialog>
-
-  <script type="module" src="./js/main.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
